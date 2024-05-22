@@ -1,0 +1,53 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../service/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-resetpass',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  templateUrl: './resetpass.component.html',
+  styleUrl: './resetpass.component.scss'
+})
+export class ResetpassComponent {
+
+  form!: FormGroup;
+    loading = false;
+    submitted = false;
+
+    constructor(
+        private authService: AuthService,
+        private formBuilder: FormBuilder,
+        private router: Router,
+    ) { }
+
+    ngOnInit() {
+        this.form = this.formBuilder.group({
+            email: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\.[a-zA-Z]{2,63}$")]],
+        });
+    }
+
+    // convenience getter for easy access to form fields
+    get f() { return this.form.controls; }
+
+    onSubmit() {
+        this.submitted = true;
+
+        // stop here if form is invalid
+        if (this.form.invalid) {
+            return;
+        }
+
+        this.loading = true;
+        this.authService.resetpass(this.f['email'].value).subscribe((res: any)=>{
+          console.log(res);
+          this.router.navigateByUrl('/auth/login');
+        }, (err)=>{
+          this.loading = false;
+          console.log(err);
+        })
+    }
+
+}
