@@ -16,6 +16,7 @@ export class ResetpassComponent {
   form!: FormGroup;
     loading = false;
     submitted = false;
+    message = null;
 
     constructor(
         private authService: AuthService,
@@ -34,6 +35,7 @@ export class ResetpassComponent {
 
     onSubmit() {
         this.submitted = true;
+        this.message = null;
 
         // stop here if form is invalid
         if (this.form.invalid) {
@@ -45,6 +47,7 @@ export class ResetpassComponent {
           console.log(res);
           this.router.navigateByUrl('/auth/login');
         }, (err)=>{
+          this.message = err.error?.message ? err.error?.message : 'Something went wrong please try again';
           this.loading = false;
           console.log(err);
         })

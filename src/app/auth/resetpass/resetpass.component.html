@@ -16,6 +16,9 @@
                 </button>
                 <a routerLink="/auth/login" class="btn btn-link">Login</a>
             </div>
+            <div *ngIf="message">
+                <p class="text-danger">{{message}}</p>
+            </div>
         </form>
     </div>
 </div>
