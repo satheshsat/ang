@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { StorageService } from '../../service/storage.service';
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+    selector: 'app-profile',
+    imports: [],
+    templateUrl: './profile.component.html',
+    styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
   authService = inject(AuthService);
